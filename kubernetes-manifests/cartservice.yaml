@@ -39,10 +39,10 @@ spec:
         securityContext:
           allowPrivilegeEscalation: false
           capabilities:
-            drop:
-              - all
-          privileged: false
+            drop: NET_RAW
           readOnlyRootFilesystem: true
+          seccompProfile:
+            type: RuntimeDefault
         image: cartservice
         ports:
         - containerPort: 7070
