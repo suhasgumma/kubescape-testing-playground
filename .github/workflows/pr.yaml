@@ -1,5 +1,7 @@
 name: Kubescape scanning for misconfigurations
-on: [pull_request]
+on:
+  pull_request:
+    branches: master
 jobs:
   kubescape:
     runs-on: ubuntu-latest
@@ -16,12 +18,14 @@ jobs:
         suggestFix: true
     - uses: peter-evans/create-pull-request@v4
       with:
-        add-paths: '**.yaml'
+        add-paths: |
+          *.yml
+          *.yaml
         commit-message: Add Security
         title: Auto Fixed by Kubescape.
         body: |
           Kubescape added some straightforward fixes to enhance security. 
           You may still need to add some fixes manually that are not conclusive.
         base: ${{ github.head_ref }}
-        branch: kubescape-auto-fix-${{ github.head_ref || github.ref_name }}
+        branch: kubescape-auto-fix-${{ github.event.number }}
         delete-branch: true
